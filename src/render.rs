@@ -434,6 +434,37 @@ fn native_timezone_name(at: chrono::DateTime<chrono::Utc>) -> Option<String> {
         &name[..name.iter().position(|c| *c == 0).unwrap_or(name.len())],
     ))
 }
+#[cfg(unix)]
+fn native_timezone_name(at: chrono::DateTime<chrono::Utc>) -> Option<String> {
+    // time_t is narrower on some Unix targets; keep the checked conversion.
+    #[allow(clippy::useless_conversion)]
+    let seconds = at.timestamp().try_into().ok()?;
+    let mut local = std::mem::MaybeUninit::<libc::tm>::uninit();
+    // SAFETY: localtime_r initializes local on success; both pointers remain valid for the call.
+    if unsafe { libc::localtime_r(&seconds, local.as_mut_ptr()) }.is_null() {
+        return None;
+    }
+    let local = unsafe { local.assume_init() };
+    let mut label = [0u8; 256];
+    // SAFETY: output is writable for its length and the format is NUL-terminated.
+    let count = unsafe {
+        libc::strftime(
+            label.as_mut_ptr().cast(),
+            label.len(),
+            c"%Z".as_ptr(),
+            &local,
+        )
+    };
+    if count == 0 {
+        return None;
+    }
+    Some(String::from_utf8_lossy(&label[..count]).into_owned())
+}
+#[cfg(not(any(windows, unix)))]
+fn native_timezone_name(_at: chrono::DateTime<chrono::Utc>) -> Option<String> {
+    None
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -487,32 +518,4 @@ mod tests {
         e.error = true;
         assert!(render_event(&e, false, false).contains("<redacted>"));
     }
-}
-#[cfg(unix)]
-fn native_timezone_name(at: chrono::DateTime<chrono::Utc>) -> Option<String> {
-    let seconds = at.timestamp().try_into().ok()?;
-    let mut local = std::mem::MaybeUninit::<libc::tm>::uninit();
-    // SAFETY: localtime_r initializes local on success; both pointers remain valid for the call.
-    if unsafe { libc::localtime_r(&seconds, local.as_mut_ptr()) }.is_null() {
-        return None;
-    }
-    let local = unsafe { local.assume_init() };
-    let mut label = [0u8; 256];
-    // SAFETY: output is writable for its length and the format is NUL-terminated.
-    let count = unsafe {
-        libc::strftime(
-            label.as_mut_ptr().cast(),
-            label.len(),
-            c"%Z".as_ptr(),
-            &local,
-        )
-    };
-    if count == 0 {
-        return None;
-    }
-    Some(String::from_utf8_lossy(&label[..count]).into_owned())
-}
-#[cfg(not(any(windows, unix)))]
-fn native_timezone_name(_at: chrono::DateTime<chrono::Utc>) -> Option<String> {
-    None
 }

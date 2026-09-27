@@ -5,8 +5,9 @@ Grok Build with one native executable. SQLite is bundled. Running the executable
 does not require Python, ripgrep, Cargo, or a separately installed SQLite.
 
 All eleven commands are implemented. Windows unit, schema, and Python parity
-checks pass; the Linux musl executable cross-builds. Native macOS and Linux CI
-is prepared but has not run. Python remains the regression oracle. See
+checks pass; the Linux musl executable cross-builds. Follow the native Windows,
+macOS ARM64/x64, and Linux [CI results](https://github.com/royalaid/agent-traces/actions/workflows/ci.yml).
+Python remains the regression oracle. See
 [verification and measurements](docs/verification-2026-09-26.md). No published
 binaries or crates.io package are available yet.
 

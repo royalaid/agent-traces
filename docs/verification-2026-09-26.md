@@ -1,5 +1,8 @@
 # Rust port verification, 2026-09-26
 
+This report records local verification before the first push. Current native
+platform results are in [GitHub CI](https://github.com/royalaid/agent-traces/actions/workflows/ci.yml).
+
 Host: DESKTOP-O91444G, native Windows 11. Checkout:
 `C:\Users\gwmai\git\agent-traces`, branch `port/rust`.
 The separate repository avoids adding a dependency lifecycle to the prose-only
