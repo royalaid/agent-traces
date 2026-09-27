@@ -1,0 +1,18 @@
+{
+  "windows_bytes": 5791744,
+  "windows_sha256": "db614540339bdfe013176175ef63943f5d42eab68f0647c47d8022746d8e1488",
+  "windows_imports": [
+    "kernel32.dll",
+    "api-ms-win-core-synch-l1-2-0.dll",
+    "ntdll.dll",
+    "bcryptprimitives.dll",
+    "KERNEL32.dll"
+  ],
+  "windows_static_crt": true,
+  "linux_bytes": 5450632,
+  "linux_sha256": "9603d9c1988399b599bd356899a79726c913c9dd5f55996ecc04ee29da7d0c98",
+  "linux_static": true,
+  "installed_version": "agent-traces 0.1.0",
+  "installed_path": "C:\\Users\\gwmai\\.local\\bin\\agent-traces.exe",
+  "installed_where_exit": 0
+}

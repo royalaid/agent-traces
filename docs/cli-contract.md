@@ -1,10 +1,10 @@
-# Proposed agent-traces CLI v1 contract
+# Agent-traces CLI v1 contract
 
-Status: proposal, 2026-09-26. The current Python CLI does not implement v1.
-This document and the adjacent schema are approval inputs, not a port.
+Implemented by the Rust CLI. The frozen Python reference supplies legacy
+behavior and does not implement v1.
 
-Read [cli-v1.schema.json](cli-v1.schema.json) for exact fields and
-[cli-v1.examples.json](cli-v1.examples.json) for synthetic envelopes covering
+Read [cli-v1.schema.json](../schemas/cli-v1.schema.json) for exact fields and
+[cli-v1.examples.json](../schemas/cli-v1.examples.json) for synthetic envelopes covering
 all six commands, empty results, ambiguity, partial coverage, and errors.
 The schema's HTTPS identifier is a proposed identifier, not a deployed service;
 validation uses the checked-in file and local references.
@@ -13,7 +13,7 @@ validation uses the checked-in file and local references.
 
 Preserve existing arguments, text output, exits, and legacy `--json`.
 Legacy `ls --json`, `find --json`, and `resolve --json` remain JSON Lines.
-Introduce `--json --schema-version 1` for ls, find, live, resolve, me,
+Use `--json --schema-version 1` for ls, find, live, resolve, me,
 and handoff. It emits exactly one UTF-8 JSON object followed by a newline,
 including for empty results. This explicitly selected format is a document,
 not JSON Lines of session rows. Emit no banner, Markdown, progress, or
@@ -33,7 +33,7 @@ stderr and a nonzero exit. Consumers check both exit status and payload.
 
 A session identity is the tuple `host_id, store_id, harness, id`.
 IDs are opaque strings, not necessarily UUIDs. The caller supplies a stable
-host identifier through proposed `AGENT_TRACES_HOST_ID`; absent it, v1
+host identifier through `AGENT_TRACES_HOST_ID`; absent it, v1
 fails before scanning with invalid_argument on stderr and exit 2. This
 preflight failure emits no envelope because a valid host_id is unavailable.
 Choose different host IDs for Windows and WSL

@@ -14,11 +14,18 @@ pub struct Event {
     pub input: Option<Value>,
     pub id: Option<String>,
     pub error: bool,
+    pub phase: Option<String>,
+    pub tool_use_id: Option<String>,
     pub model: Option<String>,
 }
 impl Event {
     pub fn new(role: &str, text: impl Into<String>, ts: Option<DateTime<Utc>>) -> Self {
-        Self { role: role.into(), text: text.into(), ts, ..Self::default() }
+        Self {
+            role: role.into(),
+            text: text.into(),
+            ts,
+            ..Self::default()
+        }
     }
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]

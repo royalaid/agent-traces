@@ -1,0 +1,63 @@
+name: Build release archives
+# Manual archive build only. This workflow cannot publish a release or push a tag.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  archive:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            suffix: .exe
+          - os: macos-15
+            target: aarch64-apple-darwin
+            suffix: ''
+          - os: macos-15-intel
+            target: x86_64-apple-darwin
+            suffix: ''
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+            suffix: ''
+    runs-on: ${{ matrix.os }}
+    env:
+      RUSTFLAGS: ${{ matrix.os == 'windows-latest' && '-C target-feature=+crt-static' || '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: rustup target add ${{ matrix.target }}
+      - if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y musl-tools
+      - run: cargo build --locked --release --target ${{ matrix.target }}
+      - name: Smoke test native executable
+        run: python tests/parity.py --binary target/${{ matrix.target }}/release/agent-traces${{ matrix.suffix }}
+      - name: Package binary, contract, and checksum
+        shell: python
+        env:
+          TARGET: ${{ matrix.target }}
+          SUFFIX: ${{ matrix.suffix }}
+        run: |
+          import hashlib, os, pathlib, shutil
+          target = os.environ['TARGET']
+          name = 'agent-traces-' + target
+          stage = pathlib.Path('dist') / name
+          stage.mkdir(parents=True)
+          shutil.copy2(pathlib.Path('target') / target / 'release' / ('agent-traces' + os.environ['SUFFIX']), stage)
+          shutil.copy2('README.md', stage)
+          shutil.copytree('schemas', stage / 'schemas')
+          archive = pathlib.Path(shutil.make_archive(str(pathlib.Path('dist') / name), 'zip' if os.environ['SUFFIX'] else 'gztar', 'dist', name))
+          digest = hashlib.sha256(archive.read_bytes()).hexdigest()
+          archive.with_name(archive.name + '.sha256').write_text(digest + '  ' + archive.name + '\n', encoding='utf-8')
+      - uses: actions/upload-artifact@v4
+        with:
+          name: agent-traces-${{ matrix.target }}
+          path: |
+            dist/*.zip
+            dist/*.tar.gz
+            dist/*.sha256
+          if-no-files-found: error
