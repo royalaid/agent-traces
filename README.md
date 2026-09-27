@@ -8,12 +8,39 @@ All eleven commands are implemented. Windows unit, schema, and Python parity
 checks pass; the Linux musl executable cross-builds. Follow the native Windows,
 macOS ARM64/x64, and Linux [CI results](https://github.com/royalaid/agent-traces/actions/workflows/ci.yml).
 Python remains the regression oracle. See
-[verification and measurements](docs/verification-2026-09-26.md). No published
-binaries or crates.io package are available yet.
+[verification and measurements](docs/verification-2026-09-26.md).
+Download native binaries from the private [v0.1.0 release](https://github.com/royalaid/agent-traces/releases/tag/v0.1.0).
+This package is not published to crates.io.
 
-## Build and install
+## Install a release
 
-Install a Rust toolchain and the platform C compiler, then run:
+Authenticate GitHub CLI with access to `royalaid/agent-traces`. Download the archive
+and its `.sha256` file for your host with:
+
+```sh
+gh release download v0.1.0 --repo royalaid/agent-traces --pattern 'ARCHIVE_NAME*' --dir downloads
+```
+
+| Host | Archive name |
+| --- | --- |
+| Windows x64 | `agent-traces-x86_64-pc-windows-msvc.zip` |
+| macOS Apple Silicon | `agent-traces-aarch64-apple-darwin.tar.gz` |
+| macOS Intel | `agent-traces-x86_64-apple-darwin.tar.gz` |
+| Linux x64, including WSL | `agent-traces-x86_64-unknown-linux-musl.tar.gz` |
+
+Replace `ARCHIVE_NAME` with the exact table entry. Verify the archive against its
+SHA-256 file before extracting: `Get-FileHash -Algorithm SHA256` on Windows,
+`shasum -a 256 -c ARCHIVE_NAME.sha256` on macOS, or
+`sha256sum -c ARCHIVE_NAME.sha256` on Linux, from the download directory.
+Extract with `Expand-Archive` on Windows or `tar -xzf` on Unix. Copy the executable
+inside the extracted directory into a directory on PATH, then verify
+`agent-traces --version` and `agent-traces where`. Run it on the host that owns
+the stores; Windows and WSL are separate hosts.
+
+## Build from source
+
+Clone this repository, enter its directory, and install a Rust toolchain and the
+platform C compiler. Run:
 
 ```sh
 cargo build --locked --release
@@ -71,7 +98,9 @@ use `python -m pip install jsonschema==4.26.0`, then
 `python tests/parity.py --schema`. See [parity scope](docs/parity.md).
 
 CI is configured for native Windows, macOS ARM64/x64, and Linux verification. The manual release
-workflow builds archives and SHA-256 checksums; it does not publish them.
+workflow verifies native release executables and builds archives with SHA-256
+checksums. Publication attaches those verified archives to a versioned GitHub
+release; the workflow itself has read-only repository permissions.
 Its targets are Windows x64, macOS ARM64 and x64, and Linux x64 musl.
 Linux ARM64 is a later matrix addition requiring a native runner or a tested
 cross-toolchain. Rust target details come from the
