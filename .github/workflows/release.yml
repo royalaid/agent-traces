@@ -54,7 +54,7 @@ jobs:
           shutil.copytree('docs', stage / 'docs')
           archive = pathlib.Path(shutil.make_archive(str(pathlib.Path('dist') / name), 'zip' if os.environ['SUFFIX'] else 'gztar', 'dist', name))
           digest = hashlib.sha256(archive.read_bytes()).hexdigest()
-          archive.with_name(archive.name + '.sha256').write_text(digest + '  ' + archive.name + '\n', encoding='utf-8')
+          archive.with_name(archive.name + '.sha256').write_text(digest + '  ' + archive.name + '\n', encoding='utf-8', newline='\n')
       - uses: actions/upload-artifact@v4
         with:
           name: agent-traces-${{ matrix.target }}
