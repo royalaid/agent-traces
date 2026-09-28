@@ -1,0 +1,5 @@
+/target/
+/.worktrees/
+/private/
+*.pstats
+__pycache__/
