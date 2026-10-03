@@ -81,6 +81,12 @@ Stores are opened read-only using their existing WAL configuration. The program
 does not switch journal mode, checkpoint, migrate, or modify store content.
 Read-only SQLite access can take transient read locks and use WAL shared-memory
 coordination. Generated caches and handoff output belong outside session stores.
+T3 Code reads orchestrator v2 threads from `~/.t3/userdata/statev2.sqlite` and
+adds v1 threads from `state.sqlite` whose IDs are absent from v2. A v2 row takes
+precedence, including a deleted row. Machines with only v1 keep using the v1
+store. Provider session IDs resolve to their T3 thread, including IDs from
+previous provider threads in v2. `where` reports each store separately.
+
 Hermes has no adapter in this release.
 
 ## Verify
