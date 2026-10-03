@@ -1,7 +1,6 @@
 name: CI
+# Manual only: the account's Actions billing is off. Run it from the Actions tab when wanted.
 on:
-  push:
-  pull_request:
   workflow_dispatch:
 permissions:
   contents: read
