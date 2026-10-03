@@ -1,0 +1,865 @@
+{
+  "description": "Synthetic proposed outputs, not private session captures.",
+  "examples": [
+    {
+      "name": "ls",
+      "exit_code": 0,
+      "output": {
+        "schema_version": "1.0",
+        "command": "ls",
+        "host_id": "example-windows",
+        "observed_at": "2026-09-26T10:00:00.000000Z",
+        "status": "ok",
+        "complete": true,
+        "redaction": "agent-traces-redact-v1",
+        "diagnostics": [],
+        "coverage": [
+          {
+            "harness": "claude",
+            "store_id": "claude-personal",
+            "capability": "sessions",
+            "status": "read",
+            "reason": null
+          }
+        ],
+        "result": {
+          "sessions": [
+            {
+              "identity": {
+                "host_id": "example-windows",
+                "store_id": "claude-personal",
+                "harness": "claude",
+                "id": "00000000-0000-4000-8000-000000000001"
+              },
+              "home": "C:\\Users\\example\\.claude-personal",
+              "parent": null,
+              "kind": "main",
+              "cwd": "C:\\work\\demo",
+              "branch": null,
+              "title": "Synthetic session",
+              "first_prompt": "Inspect the demo",
+              "started": "2026-09-26T10:00:00.000000Z",
+              "updated": "2026-09-26T10:00:00.000000Z",
+              "model": null,
+              "archived": null,
+              "source": {
+                "kind": "jsonl",
+                "path": "C:\\Users\\example\\.claude-personal\\projects\\demo\\session.jsonl",
+                "selector": null
+              },
+              "aliases": [],
+              "attributes": {
+                "entrypoint": "cli",
+                "agent_type": null,
+                "originator": null,
+                "nickname": null,
+                "provider_instance": null,
+                "provider": null,
+                "provider_id": null,
+                "status": null
+              }
+            }
+          ],
+          "total": 1,
+          "limit": 30,
+          "truncated": false
+        }
+      }
+    },
+    {
+      "name": "find",
+      "exit_code": 0,
+      "output": {
+        "schema_version": "1.0",
+        "command": "find",
+        "host_id": "example-windows",
+        "observed_at": "2026-09-26T10:00:00.000000Z",
+        "status": "ok",
+        "complete": true,
+        "redaction": "agent-traces-redact-v1",
+        "diagnostics": [],
+        "coverage": [
+          {
+            "harness": "claude",
+            "store_id": "claude-personal",
+            "capability": "search",
+            "status": "read",
+            "reason": null
+          }
+        ],
+        "result": {
+          "query_terms": [
+            "demo"
+          ],
+          "scope": "prompts",
+          "sort": "relevance",
+          "score_algorithm": "agent-traces-python-bm25-v1",
+          "matches": [
+            {
+              "session": {
+                "identity": {
+                  "host_id": "example-windows",
+                  "store_id": "claude-personal",
+                  "harness": "claude",
+                  "id": "00000000-0000-4000-8000-000000000001"
+                },
+                "home": "C:\\Users\\example\\.claude-personal",
+                "parent": null,
+                "kind": "main",
+                "cwd": "C:\\work\\demo",
+                "branch": null,
+                "title": "Synthetic session",
+                "first_prompt": "Inspect the demo",
+                "started": "2026-09-26T10:00:00.000000Z",
+                "updated": "2026-09-26T10:00:00.000000Z",
+                "model": null,
+                "archived": null,
+                "source": {
+                  "kind": "jsonl",
+                  "path": "C:\\Users\\example\\.claude-personal\\projects\\demo\\session.jsonl",
+                  "selector": null
+                },
+                "aliases": [],
+                "attributes": {
+                  "entrypoint": "cli",
+                  "agent_type": null,
+                  "originator": null,
+                  "nickname": null,
+                  "provider_instance": null,
+                  "provider": null,
+                  "provider_id": null,
+                  "status": null
+                }
+              },
+              "score": 2.13,
+              "match_kind": "body",
+              "hits": [
+                {
+                  "ts": "2026-09-26T10:00:00.000000Z",
+                  "role": "prompt",
+                  "snippet": "Inspect the demo"
+                }
+              ]
+            }
+          ],
+          "total": 1,
+          "limit": 15,
+          "truncated": false
+        }
+      }
+    },
+    {
+      "name": "resolve",
+      "exit_code": 0,
+      "output": {
+        "schema_version": "1.0",
+        "command": "resolve",
+        "host_id": "example-windows",
+        "observed_at": "2026-09-26T10:00:00.000000Z",
+        "status": "ok",
+        "complete": true,
+        "redaction": "agent-traces-redact-v1",
+        "diagnostics": [],
+        "coverage": [
+          {
+            "harness": "claude",
+            "store_id": "claude-personal",
+            "capability": "resolve",
+            "status": "read",
+            "reason": null
+          }
+        ],
+        "result": {
+          "query": "00000000-0000-4000-8000-000000000001",
+          "resolution": "resolved",
+          "candidates": [
+            {
+              "identity": {
+                "host_id": "example-windows",
+                "store_id": "claude-personal",
+                "harness": "claude",
+                "id": "00000000-0000-4000-8000-000000000001"
+              },
+              "home": "C:\\Users\\example\\.claude-personal",
+              "parent": null,
+              "kind": "main",
+              "cwd": "C:\\work\\demo",
+              "branch": null,
+              "title": "Synthetic session",
+              "first_prompt": "Inspect the demo",
+              "started": "2026-09-26T10:00:00.000000Z",
+              "updated": "2026-09-26T10:00:00.000000Z",
+              "model": null,
+              "archived": null,
+              "source": {
+                "kind": "jsonl",
+                "path": "C:\\Users\\example\\.claude-personal\\projects\\demo\\session.jsonl",
+                "selector": null
+              },
+              "aliases": [],
+              "attributes": {
+                "entrypoint": "cli",
+                "agent_type": null,
+                "originator": null,
+                "nickname": null,
+                "provider_instance": null,
+                "provider": null,
+                "provider_id": null,
+                "status": null
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "live",
+      "exit_code": 0,
+      "output": {
+        "schema_version": "1.0",
+        "command": "live",
+        "host_id": "example-windows",
+        "observed_at": "2026-09-26T10:00:00.000000Z",
+        "status": "ok",
+        "complete": true,
+        "redaction": "agent-traces-redact-v1",
+        "diagnostics": [],
+        "coverage": [
+          {
+            "harness": "claude",
+            "store_id": "claude-personal",
+            "capability": "live",
+            "status": "read",
+            "reason": null
+          },
+          {
+            "harness": "codex",
+            "store_id": "codex-default",
+            "capability": "live",
+            "status": "unsupported",
+            "reason": "No authoritative liveness record"
+          }
+        ],
+        "result": {
+          "observations": [
+            {
+              "identity": {
+                "host_id": "example-windows",
+                "store_id": "claude-personal",
+                "harness": "claude",
+                "id": "00000000-0000-4000-8000-000000000001"
+              },
+              "session": {
+                "identity": {
+                  "host_id": "example-windows",
+                  "store_id": "claude-personal",
+                  "harness": "claude",
+                  "id": "00000000-0000-4000-8000-000000000001"
+                },
+                "home": "C:\\Users\\example\\.claude-personal",
+                "parent": null,
+                "kind": "main",
+                "cwd": "C:\\work\\demo",
+                "branch": null,
+                "title": "Synthetic session",
+                "first_prompt": "Inspect the demo",
+                "started": "2026-09-26T10:00:00.000000Z",
+                "updated": "2026-09-26T10:00:00.000000Z",
+                "model": null,
+                "archived": null,
+                "source": {
+                  "kind": "jsonl",
+                  "path": "C:\\Users\\example\\.claude-personal\\projects\\demo\\session.jsonl",
+                  "selector": null
+                },
+                "aliases": [],
+                "attributes": {
+                  "entrypoint": "cli",
+                  "agent_type": null,
+                  "originator": null,
+                  "nickname": null,
+                  "provider_instance": null,
+                  "provider": null,
+                  "provider_id": null,
+                  "status": null
+                }
+              },
+              "evidence": "claude_pid",
+              "pid": 1234,
+              "process_started": "2026-09-26T10:00:00.000000Z",
+              "observed_status": "running",
+              "confidence": "process_identity_verified",
+              "is_self": false,
+              "last_activity": "2026-09-26T10:00:00.000000Z",
+              "last_prompt": "Inspect the demo"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "me",
+      "exit_code": 0,
+      "output": {
+        "schema_version": "1.0",
+        "command": "me",
+        "host_id": "example-windows",
+        "observed_at": "2026-09-26T10:00:00.000000Z",
+        "status": "ok",
+        "complete": true,
+        "redaction": "agent-traces-redact-v1",
+        "diagnostics": [],
+        "coverage": [
+          {
+            "harness": "claude",
+            "store_id": "claude-personal",
+            "capability": "resolve",
+            "status": "read",
+            "reason": null
+          }
+        ],
+        "result": {
+          "identifiers": [
+            {
+              "environment_variable": "CLAUDE_CODE_SESSION_ID",
+              "id": "00000000-0000-4000-8000-000000000001",
+              "resolved": true
+            }
+          ],
+          "sessions": [
+            {
+              "identity": {
+                "host_id": "example-windows",
+                "store_id": "claude-personal",
+                "harness": "claude",
+                "id": "00000000-0000-4000-8000-000000000001"
+              },
+              "home": "C:\\Users\\example\\.claude-personal",
+              "parent": null,
+              "kind": "main",
+              "cwd": "C:\\work\\demo",
+              "branch": null,
+              "title": "Synthetic session",
+              "first_prompt": "Inspect the demo",
+              "started": "2026-09-26T10:00:00.000000Z",
+              "updated": "2026-09-26T10:00:00.000000Z",
+              "model": null,
+              "archived": null,
+              "source": {
+                "kind": "jsonl",
+                "path": "C:\\Users\\example\\.claude-personal\\projects\\demo\\session.jsonl",
+                "selector": null
+              },
+              "aliases": [],
+              "attributes": {
+                "entrypoint": "cli",
+                "agent_type": null,
+                "originator": null,
+                "nickname": null,
+                "provider_instance": null,
+                "provider": null,
+                "provider_id": null,
+                "status": null
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "handoff",
+      "exit_code": 0,
+      "output": {
+        "schema_version": "1.0",
+        "command": "handoff",
+        "host_id": "example-windows",
+        "observed_at": "2026-09-26T10:00:00.000000Z",
+        "status": "ok",
+        "complete": true,
+        "redaction": "agent-traces-redact-v1",
+        "diagnostics": [],
+        "coverage": [
+          {
+            "harness": "claude",
+            "store_id": "claude-personal",
+            "capability": "events",
+            "status": "read",
+            "reason": null
+          }
+        ],
+        "result": {
+          "session": {
+            "identity": {
+              "host_id": "example-windows",
+              "store_id": "claude-personal",
+              "harness": "claude",
+              "id": "00000000-0000-4000-8000-000000000001"
+            },
+            "home": "C:\\Users\\example\\.claude-personal",
+            "parent": null,
+            "kind": "main",
+            "cwd": "C:\\work\\demo",
+            "branch": null,
+            "title": "Synthetic session",
+            "first_prompt": "Inspect the demo",
+            "started": "2026-09-26T10:00:00.000000Z",
+            "updated": "2026-09-26T10:00:00.000000Z",
+            "model": null,
+            "archived": null,
+            "source": {
+              "kind": "jsonl",
+              "path": "C:\\Users\\example\\.claude-personal\\projects\\demo\\session.jsonl",
+              "selector": null
+            },
+            "aliases": [],
+            "attributes": {
+              "entrypoint": "cli",
+              "agent_type": null,
+              "originator": null,
+              "nickname": null,
+              "provider_instance": null,
+              "provider": null,
+              "provider_id": null,
+              "status": null
+            }
+          },
+          "verification": "unverified",
+          "goal": {
+            "ts": "2026-09-26T10:00:00.000000Z",
+            "text": "Inspect the demo",
+            "truncated": false
+          },
+          "requests": [
+            {
+              "ts": "2026-09-26T10:00:00.000000Z",
+              "text": "Inspect the demo",
+              "truncated": false
+            }
+          ],
+          "last_assistant": {
+            "ts": "2026-09-26T10:00:00.000000Z",
+            "text": "The transcript reports a completed inspection.",
+            "truncated": false
+          },
+          "earlier_conclusions": [],
+          "last_plan": null,
+          "files": [],
+          "commands": [],
+          "errors": [],
+          "tickets": [],
+          "pull_requests": [],
+          "children": [],
+          "counts": {
+            "turns": 1,
+            "requests": 1,
+            "tool_calls": 0,
+            "commands": 0,
+            "errors": 0,
+            "files": 0,
+            "tickets": 0,
+            "pull_requests": 0,
+            "children": 0
+          },
+          "truncation": {
+            "requests": false,
+            "earlier_conclusions": false,
+            "files": false,
+            "commands": false,
+            "errors": false,
+            "tickets": false,
+            "pull_requests": false,
+            "children": false
+          }
+        }
+      }
+    },
+    {
+      "name": "empty_ls",
+      "exit_code": 0,
+      "output": {
+        "schema_version": "1.0",
+        "command": "ls",
+        "host_id": "example-windows",
+        "observed_at": "2026-09-26T10:00:00.000000Z",
+        "status": "ok",
+        "complete": true,
+        "redaction": "agent-traces-redact-v1",
+        "diagnostics": [],
+        "coverage": [
+          {
+            "harness": "claude",
+            "store_id": "claude-personal",
+            "capability": "sessions",
+            "status": "read",
+            "reason": null
+          }
+        ],
+        "result": {
+          "sessions": [],
+          "total": 0,
+          "limit": 30,
+          "truncated": false
+        }
+      }
+    },
+    {
+      "name": "empty_find",
+      "exit_code": 1,
+      "output": {
+        "schema_version": "1.0",
+        "command": "find",
+        "host_id": "example-windows",
+        "observed_at": "2026-09-26T10:00:00.000000Z",
+        "status": "not_found",
+        "complete": true,
+        "redaction": "agent-traces-redact-v1",
+        "diagnostics": [],
+        "coverage": [
+          {
+            "harness": "claude",
+            "store_id": "claude-personal",
+            "capability": "search",
+            "status": "read",
+            "reason": null
+          }
+        ],
+        "result": {
+          "query_terms": [
+            "demo"
+          ],
+          "scope": "prompts",
+          "sort": "relevance",
+          "score_algorithm": "agent-traces-python-bm25-v1",
+          "matches": [],
+          "total": 0,
+          "limit": 15,
+          "truncated": false
+        }
+      }
+    },
+    {
+      "name": "ambiguous_resolve",
+      "exit_code": 4,
+      "output": {
+        "schema_version": "1.0",
+        "command": "resolve",
+        "host_id": "example-windows",
+        "observed_at": "2026-09-26T10:00:00.000000Z",
+        "status": "ambiguous",
+        "complete": true,
+        "redaction": "agent-traces-redact-v1",
+        "diagnostics": [],
+        "coverage": [
+          {
+            "harness": "claude",
+            "store_id": "claude-personal",
+            "capability": "resolve",
+            "status": "read",
+            "reason": null
+          }
+        ],
+        "result": {
+          "query": "000000",
+          "resolution": "ambiguous",
+          "candidates": [
+            {
+              "identity": {
+                "host_id": "example-windows",
+                "store_id": "claude-personal",
+                "harness": "claude",
+                "id": "00000000-0000-4000-8000-000000000001"
+              },
+              "home": "C:\\Users\\example\\.claude-personal",
+              "parent": null,
+              "kind": "main",
+              "cwd": "C:\\work\\demo",
+              "branch": null,
+              "title": "Synthetic session",
+              "first_prompt": "Inspect the demo",
+              "started": "2026-09-26T10:00:00.000000Z",
+              "updated": "2026-09-26T10:00:00.000000Z",
+              "model": null,
+              "archived": null,
+              "source": {
+                "kind": "jsonl",
+                "path": "C:\\Users\\example\\.claude-personal\\projects\\demo\\session.jsonl",
+                "selector": null
+              },
+              "aliases": [],
+              "attributes": {
+                "entrypoint": "cli",
+                "agent_type": null,
+                "originator": null,
+                "nickname": null,
+                "provider_instance": null,
+                "provider": null,
+                "provider_id": null,
+                "status": null
+              }
+            },
+            {
+              "identity": {
+                "host_id": "example-windows",
+                "store_id": "claude-personal",
+                "harness": "claude",
+                "id": "00000000-0000-4000-8000-000000000002"
+              },
+              "home": "C:\\Users\\example\\.claude-personal",
+              "parent": null,
+              "kind": "main",
+              "cwd": "C:\\work\\demo",
+              "branch": null,
+              "title": "Synthetic session",
+              "first_prompt": "Inspect the demo",
+              "started": "2026-09-26T10:00:00.000000Z",
+              "updated": "2026-09-26T10:00:00.000000Z",
+              "model": null,
+              "archived": null,
+              "source": {
+                "kind": "jsonl",
+                "path": "C:\\example\\second.jsonl",
+                "selector": null
+              },
+              "aliases": [],
+              "attributes": {
+                "entrypoint": "cli",
+                "agent_type": null,
+                "originator": null,
+                "nickname": null,
+                "provider_instance": null,
+                "provider": null,
+                "provider_id": null,
+                "status": null
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "incomplete_ls",
+      "exit_code": 3,
+      "output": {
+        "schema_version": "1.0",
+        "command": "ls",
+        "host_id": "example-windows",
+        "observed_at": "2026-09-26T10:00:00.000000Z",
+        "status": "partial",
+        "complete": false,
+        "redaction": "agent-traces-redact-v1",
+        "diagnostics": [
+          {
+            "code": "store_busy",
+            "severity": "warning",
+            "harness": "codex",
+            "store_id": "codex-default",
+            "message": "Read snapshot unavailable within deadline",
+            "retryable": true
+          }
+        ],
+        "coverage": [
+          {
+            "harness": "claude",
+            "store_id": "claude-personal",
+            "capability": "sessions",
+            "status": "read",
+            "reason": null
+          },
+          {
+            "harness": "codex",
+            "store_id": "codex-default",
+            "capability": "sessions",
+            "status": "busy",
+            "reason": "Read deadline exceeded"
+          }
+        ],
+        "result": {
+          "sessions": [
+            {
+              "identity": {
+                "host_id": "example-windows",
+                "store_id": "claude-personal",
+                "harness": "claude",
+                "id": "00000000-0000-4000-8000-000000000001"
+              },
+              "home": "C:\\Users\\example\\.claude-personal",
+              "parent": null,
+              "kind": "main",
+              "cwd": "C:\\work\\demo",
+              "branch": null,
+              "title": "Synthetic session",
+              "first_prompt": "Inspect the demo",
+              "started": "2026-09-26T10:00:00.000000Z",
+              "updated": "2026-09-26T10:00:00.000000Z",
+              "model": null,
+              "archived": null,
+              "source": {
+                "kind": "jsonl",
+                "path": "C:\\Users\\example\\.claude-personal\\projects\\demo\\session.jsonl",
+                "selector": null
+              },
+              "aliases": [],
+              "attributes": {
+                "entrypoint": "cli",
+                "agent_type": null,
+                "originator": null,
+                "nickname": null,
+                "provider_instance": null,
+                "provider": null,
+                "provider_id": null,
+                "status": null
+              }
+            }
+          ],
+          "total": 1,
+          "limit": 30,
+          "truncated": false
+        }
+      }
+    },
+    {
+      "name": "invalid_argument",
+      "exit_code": 2,
+      "output": {
+        "schema_version": "1.0",
+        "command": "resolve",
+        "host_id": "example-windows",
+        "observed_at": "2026-09-26T10:00:00.000000Z",
+        "status": "error",
+        "complete": false,
+        "redaction": "agent-traces-redact-v1",
+        "diagnostics": [
+          {
+            "code": "invalid_argument",
+            "severity": "error",
+            "harness": null,
+            "store_id": null,
+            "message": "ID prefix must contain at least six characters",
+            "retryable": false
+          }
+        ],
+        "coverage": [],
+        "result": null
+      }
+    },
+    {
+      "name": "handoff_not_found",
+      "exit_code": 1,
+      "output": {
+        "schema_version": "1.0",
+        "command": "handoff",
+        "host_id": "example-windows",
+        "observed_at": "2026-09-26T10:00:00.000000Z",
+        "status": "not_found",
+        "complete": true,
+        "redaction": "agent-traces-redact-v1",
+        "diagnostics": [
+          {
+            "code": "not_found",
+            "severity": "info",
+            "harness": null,
+            "store_id": null,
+            "message": "No session matches the supplied ID",
+            "retryable": false
+          }
+        ],
+        "coverage": [
+          {
+            "harness": "claude",
+            "store_id": "claude-personal",
+            "capability": "resolve",
+            "status": "read",
+            "reason": null
+          }
+        ],
+        "result": null
+      }
+    },
+    {
+      "name": "non_wal_store",
+      "exit_code": 3,
+      "output": {
+        "schema_version": "1.0",
+        "command": "ls",
+        "host_id": "example-windows",
+        "observed_at": "2026-09-26T10:00:00.000000Z",
+        "status": "partial",
+        "complete": false,
+        "redaction": "agent-traces-redact-v1",
+        "diagnostics": [
+          {
+            "code": "unsupported_storage_mode",
+            "severity": "warning",
+            "harness": "codex",
+            "store_id": "codex-default",
+            "message": "Live SQLite store is not in WAL mode; skipped without changing journal mode",
+            "retryable": false
+          }
+        ],
+        "coverage": [
+          {
+            "harness": "codex",
+            "store_id": "codex-default",
+            "capability": "sessions",
+            "status": "unsupported_storage_mode",
+            "reason": "Existing WAL mode is required for live reads"
+          }
+        ],
+        "result": {
+          "sessions": [],
+          "total": 0,
+          "limit": 30,
+          "truncated": false
+        }
+      }
+    },
+    {
+      "name": "partial_handoff_without_extraction",
+      "exit_code": 3,
+      "output": {
+        "schema_version": "1.0",
+        "command": "handoff",
+        "host_id": "example-windows",
+        "observed_at": "2026-09-26T10:00:00.000000Z",
+        "status": "partial",
+        "complete": false,
+        "redaction": "agent-traces-redact-v1",
+        "diagnostics": [
+          {
+            "code": "store_busy",
+            "severity": "warning",
+            "harness": "codex",
+            "store_id": "codex-default",
+            "message": "Read snapshot unavailable within deadline",
+            "retryable": true
+          },
+          {
+            "code": "ambiguous_identity",
+            "severity": "warning",
+            "harness": null,
+            "store_id": null,
+            "message": "No unique session can be selected with incomplete coverage; rerun resolve after retrying the unavailable store",
+            "retryable": true
+          }
+        ],
+        "coverage": [
+          {
+            "harness": "claude",
+            "store_id": "claude-personal",
+            "capability": "resolve",
+            "status": "read",
+            "reason": null
+          },
+          {
+            "harness": "codex",
+            "store_id": "codex-default",
+            "capability": "resolve",
+            "status": "busy",
+            "reason": "Read deadline exceeded"
+          }
+        ],
+        "result": null
+      }
+    }
+  ]
+}
