@@ -3,3 +3,4 @@
 /private/
 *.pstats
 __pycache__/
+/dist/
