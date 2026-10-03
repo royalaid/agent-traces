@@ -1,0 +1,503 @@
+{
+  "host": "Windows 11 desktop",
+  "binary_sha256": "db614540339bdfe013176175ef63943f5d42eab68f0647c47d8022746d8e1488",
+  "binary_bytes": 5791744,
+  "reference_source_sha256": "fb3bb00b1711b06c06a16fae3bca9f82a75da9d30aa7315406894cfb61574e95",
+  "method": "one warmup then 3 fresh subprocess runs per engine/case; same live WAL stores, separate warm metadata caches; Python UTF8; smaller-rg-batch and safe-live reference variants explicit; normal desktop use",
+  "runs": [
+    {
+      "seconds": 1.070997000002535,
+      "exit": 0,
+      "stdout_bytes": 1554327,
+      "output_lines": 2038,
+      "stderr_bytes": 0,
+      "peak_working_set_bytes": 56385536,
+      "name": "list_all",
+      "engine": "python",
+      "rep": 0,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 0.9689199999993434,
+      "exit": 0,
+      "stdout_bytes": 1554327,
+      "output_lines": 2038,
+      "stderr_bytes": 0,
+      "peak_working_set_bytes": 56541184,
+      "name": "list_all",
+      "engine": "python",
+      "rep": 1,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 1.192161600003601,
+      "exit": 0,
+      "stdout_bytes": 1554327,
+      "output_lines": 2038,
+      "stderr_bytes": 0,
+      "peak_working_set_bytes": 56426496,
+      "name": "list_all",
+      "engine": "python",
+      "rep": 2,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 0.8748570000025211,
+      "exit": 0,
+      "stdout_bytes": 1493351,
+      "output_lines": 2038,
+      "stderr_bytes": 0,
+      "peak_working_set_bytes": 81018880,
+      "name": "list_all",
+      "engine": "rust",
+      "rep": 0,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 0.8162902000040049,
+      "exit": 0,
+      "stdout_bytes": 1493351,
+      "output_lines": 2038,
+      "stderr_bytes": 0,
+      "peak_working_set_bytes": 81022976,
+      "name": "list_all",
+      "engine": "rust",
+      "rep": 1,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 0.7917310000048019,
+      "exit": 0,
+      "stdout_bytes": 1493351,
+      "output_lines": 2038,
+      "stderr_bytes": 0,
+      "peak_working_set_bytes": 81014784,
+      "name": "list_all",
+      "engine": "rust",
+      "rep": 2,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 1.3078887000010582,
+      "exit": 0,
+      "stdout_bytes": 21863,
+      "output_lines": 15,
+      "stderr_bytes": 225,
+      "peak_working_set_bytes": 32268288,
+      "name": "find_7d",
+      "engine": "python",
+      "rep": 0,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 1.5949607999937143,
+      "exit": 0,
+      "stdout_bytes": 21863,
+      "output_lines": 15,
+      "stderr_bytes": 225,
+      "peak_working_set_bytes": 32985088,
+      "name": "find_7d",
+      "engine": "python",
+      "rep": 1,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 1.27328920000582,
+      "exit": 0,
+      "stdout_bytes": 21863,
+      "output_lines": 15,
+      "stderr_bytes": 225,
+      "peak_working_set_bytes": 31768576,
+      "name": "find_7d",
+      "engine": "python",
+      "rep": 2,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 0.8119321999984095,
+      "exit": 0,
+      "stdout_bytes": 21175,
+      "output_lines": 15,
+      "stderr_bytes": 225,
+      "peak_working_set_bytes": 14233600,
+      "name": "find_7d",
+      "engine": "rust",
+      "rep": 0,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 1.0100133000087226,
+      "exit": 0,
+      "stdout_bytes": 21175,
+      "output_lines": 15,
+      "stderr_bytes": 225,
+      "peak_working_set_bytes": 14262272,
+      "name": "find_7d",
+      "engine": "rust",
+      "rep": 1,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 0.9943414000008488,
+      "exit": 0,
+      "stdout_bytes": 21175,
+      "output_lines": 15,
+      "stderr_bytes": 225,
+      "peak_working_set_bytes": 14155776,
+      "name": "find_7d",
+      "engine": "rust",
+      "rep": 2,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 21.75282270000025,
+      "exit": 0,
+      "stdout_bytes": 24590,
+      "output_lines": 15,
+      "stderr_bytes": 226,
+      "peak_working_set_bytes": 82399232,
+      "name": "find_broad",
+      "engine": "python",
+      "rep": 0,
+      "python_variant": "small"
+    },
+    {
+      "seconds": 23.69535559999349,
+      "exit": 0,
+      "stdout_bytes": 24590,
+      "output_lines": 15,
+      "stderr_bytes": 226,
+      "peak_working_set_bytes": 82923520,
+      "name": "find_broad",
+      "engine": "python",
+      "rep": 1,
+      "python_variant": "small"
+    },
+    {
+      "seconds": 21.89818689999811,
+      "exit": 0,
+      "stdout_bytes": 24590,
+      "output_lines": 15,
+      "stderr_bytes": 226,
+      "peak_working_set_bytes": 82432000,
+      "name": "find_broad",
+      "engine": "python",
+      "rep": 2,
+      "python_variant": "small"
+    },
+    {
+      "seconds": 11.247696499995072,
+      "exit": 0,
+      "stdout_bytes": 23844,
+      "output_lines": 15,
+      "stderr_bytes": 738,
+      "peak_working_set_bytes": 81256448,
+      "name": "find_broad",
+      "engine": "rust",
+      "rep": 0,
+      "python_variant": "small"
+    },
+    {
+      "seconds": 11.367737699998543,
+      "exit": 0,
+      "stdout_bytes": 23844,
+      "output_lines": 15,
+      "stderr_bytes": 738,
+      "peak_working_set_bytes": 80805888,
+      "name": "find_broad",
+      "engine": "rust",
+      "rep": 1,
+      "python_variant": "small"
+    },
+    {
+      "seconds": 11.066483999995398,
+      "exit": 0,
+      "stdout_bytes": 23844,
+      "output_lines": 15,
+      "stderr_bytes": 738,
+      "peak_working_set_bytes": 81281024,
+      "name": "find_broad",
+      "engine": "rust",
+      "rep": 2,
+      "python_variant": "small"
+    },
+    {
+      "seconds": 0.3186946000059834,
+      "exit": 0,
+      "stdout_bytes": 1129,
+      "output_lines": 1,
+      "stderr_bytes": 0,
+      "peak_working_set_bytes": 27717632,
+      "name": "resolve",
+      "engine": "python",
+      "rep": 0,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 0.3142303000058746,
+      "exit": 0,
+      "stdout_bytes": 1129,
+      "output_lines": 1,
+      "stderr_bytes": 0,
+      "peak_working_set_bytes": 27648000,
+      "name": "resolve",
+      "engine": "python",
+      "rep": 1,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 0.3782941999961622,
+      "exit": 0,
+      "stdout_bytes": 1129,
+      "output_lines": 1,
+      "stderr_bytes": 0,
+      "peak_working_set_bytes": 27480064,
+      "name": "resolve",
+      "engine": "python",
+      "rep": 2,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 0.42119090000051074,
+      "exit": 0,
+      "stdout_bytes": 1098,
+      "output_lines": 1,
+      "stderr_bytes": 0,
+      "peak_working_set_bytes": 10620928,
+      "name": "resolve",
+      "engine": "rust",
+      "rep": 0,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 0.45725160000438336,
+      "exit": 0,
+      "stdout_bytes": 1098,
+      "output_lines": 1,
+      "stderr_bytes": 0,
+      "peak_working_set_bytes": 10616832,
+      "name": "resolve",
+      "engine": "rust",
+      "rep": 1,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 0.43527430000540335,
+      "exit": 0,
+      "stdout_bytes": 1098,
+      "output_lines": 1,
+      "stderr_bytes": 0,
+      "peak_working_set_bytes": 10616832,
+      "name": "resolve",
+      "engine": "rust",
+      "rep": 2,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 4.38052589999279,
+      "exit": 0,
+      "stdout_bytes": 16266,
+      "output_lines": 148,
+      "stderr_bytes": 414,
+      "peak_working_set_bytes": 136716288,
+      "name": "show_large",
+      "engine": "python",
+      "rep": 0,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 4.9699430000036955,
+      "exit": 0,
+      "stdout_bytes": 16266,
+      "output_lines": 148,
+      "stderr_bytes": 414,
+      "peak_working_set_bytes": 136581120,
+      "name": "show_large",
+      "engine": "python",
+      "rep": 1,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 4.653005200001644,
+      "exit": 0,
+      "stdout_bytes": 16266,
+      "output_lines": 148,
+      "stderr_bytes": 414,
+      "peak_working_set_bytes": 136781824,
+      "name": "show_large",
+      "engine": "python",
+      "rep": 2,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 2.7589464000047883,
+      "exit": 0,
+      "stdout_bytes": 16264,
+      "output_lines": 148,
+      "stderr_bytes": 0,
+      "peak_working_set_bytes": 185741312,
+      "name": "show_large",
+      "engine": "rust",
+      "rep": 0,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 2.0875509999896167,
+      "exit": 0,
+      "stdout_bytes": 16264,
+      "output_lines": 148,
+      "stderr_bytes": 0,
+      "peak_working_set_bytes": 185700352,
+      "name": "show_large",
+      "engine": "rust",
+      "rep": 1,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 1.927738300000783,
+      "exit": 0,
+      "stdout_bytes": 16264,
+      "output_lines": 148,
+      "stderr_bytes": 0,
+      "peak_working_set_bytes": 185790464,
+      "name": "show_large",
+      "engine": "rust",
+      "rep": 2,
+      "python_variant": "original"
+    },
+    {
+      "seconds": 0.44512740000209305,
+      "exit": 0,
+      "stdout_bytes": 813,
+      "output_lines": 10,
+      "stderr_bytes": 171,
+      "peak_working_set_bytes": 30679040,
+      "name": "live",
+      "engine": "python",
+      "rep": 0,
+      "python_variant": "safe"
+    },
+    {
+      "seconds": 0.34240360000694636,
+      "exit": 0,
+      "stdout_bytes": 813,
+      "output_lines": 10,
+      "stderr_bytes": 171,
+      "peak_working_set_bytes": 31207424,
+      "name": "live",
+      "engine": "python",
+      "rep": 1,
+      "python_variant": "safe"
+    },
+    {
+      "seconds": 0.35868679999839514,
+      "exit": 0,
+      "stdout_bytes": 813,
+      "output_lines": 10,
+      "stderr_bytes": 171,
+      "peak_working_set_bytes": 31031296,
+      "name": "live",
+      "engine": "python",
+      "rep": 2,
+      "python_variant": "safe"
+    },
+    {
+      "seconds": 0.44943390000844374,
+      "exit": 0,
+      "stdout_bytes": 813,
+      "output_lines": 10,
+      "stderr_bytes": 171,
+      "peak_working_set_bytes": 11706368,
+      "name": "live",
+      "engine": "rust",
+      "rep": 0,
+      "python_variant": "safe"
+    },
+    {
+      "seconds": 0.4615574000054039,
+      "exit": 0,
+      "stdout_bytes": 813,
+      "output_lines": 10,
+      "stderr_bytes": 171,
+      "peak_working_set_bytes": 11710464,
+      "name": "live",
+      "engine": "rust",
+      "rep": 1,
+      "python_variant": "safe"
+    },
+    {
+      "seconds": 0.46199340000748634,
+      "exit": 0,
+      "stdout_bytes": 813,
+      "output_lines": 10,
+      "stderr_bytes": 171,
+      "peak_working_set_bytes": 11718656,
+      "name": "live",
+      "engine": "rust",
+      "rep": 2,
+      "python_variant": "safe"
+    }
+  ],
+  "summary": {
+    "list_all": {
+      "python": 1.070997000002535,
+      "rust": 0.8162902000040049,
+      "speedup": 1.3120297168792183
+    },
+    "find_7d": {
+      "python": 1.3078887000010582,
+      "rust": 0.9943414000008488,
+      "speedup": 1.3153316355931088
+    },
+    "find_broad": {
+      "python": 21.89818689999811,
+      "rust": 11.247696499995072,
+      "speedup": 1.9469041416620463
+    },
+    "resolve": {
+      "python": 0.3186946000059834,
+      "rust": 0.43527430000540335,
+      "speedup": 0.7321695767520096
+    },
+    "show_large": {
+      "python": 4.653005200001644,
+      "rust": 2.0875509999896167,
+      "speedup": 2.228930071660423
+    },
+    "live": {
+      "python": 0.35868679999839514,
+      "rust": 0.4615574000054039,
+      "speedup": 0.7771228453800018
+    }
+  },
+  "identity_checks": [
+    {
+      "name": "list_all",
+      "python_rows": 2038,
+      "rust_rows": 2038,
+      "same_ordered_ids": true,
+      "same_id_set": true
+    },
+    {
+      "name": "find_7d",
+      "python_rows": 15,
+      "rust_rows": 15,
+      "same_ordered_ids": true,
+      "same_id_set": true
+    },
+    {
+      "name": "find_broad",
+      "python_rows": 15,
+      "rust_rows": 15,
+      "same_ordered_ids": true,
+      "same_id_set": true
+    },
+    {
+      "name": "resolve",
+      "python_rows": 1,
+      "rust_rows": 1,
+      "same_ordered_ids": true,
+      "same_id_set": true
+    }
+  ]
+}

@@ -12,6 +12,10 @@ use std::{collections::HashSet, path::PathBuf};
 pub struct T3;
 impl T3 {
     pub(crate) fn running(&self, ctx: &Context) -> Result<Vec<Session>> {
+        // A v1-only home keeps 0.1.0's query, so `live` output there is unchanged.
+        if Self::open_v2(ctx)?.is_none() {
+            return self.query_v1(ctx, "and r.status = 'running'", &[]);
+        }
         Ok(self
             .sessions(ctx, None, false)?
             .into_iter()
@@ -374,14 +378,12 @@ impl StoreAdapter for T3 {
                     .join(", ")
             })
             .unwrap_or_default();
-        let mut notes = format!(
-            "{}; provider instances: {insts}",
-            if v2.is_some() {
-                "Read v1 threads whose IDs are absent from v2"
-            } else {
-                "Read v1 threads"
-            }
-        );
+        // A v1-only home keeps 0.1.0's `where` text.
+        let mut notes = if v2.is_some() {
+            format!("Read v1 threads whose IDs are absent from v2; provider instances: {insts}")
+        } else {
+            format!("provider instances: {insts}")
+        };
         let stale = [".t3/userdata-v2", ".t3/dev"]
             .iter()
             .map(|p| ctx.home.join(p))
