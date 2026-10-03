@@ -320,6 +320,14 @@ fn pretty_plan(input: &Value) -> String {
     serde::Serialize::serialize(input, &mut serializer).expect("serialize Value");
     String::from_utf8(out).expect("UTF-8 JSON")
 }
+/// A brief section's count: "N", or "last SHOWN of N" when only the tail is shown.
+fn counted(total: usize, shown: usize) -> String {
+    if total <= shown {
+        total.to_string()
+    } else {
+        format!("last {shown} of {total}")
+    }
+}
 fn tail<T>(items: &[T], n: usize) -> &[T] {
     &items[items.len().saturating_sub(n)..]
 }
@@ -382,7 +390,7 @@ pub fn handoff(
     }
     lines.extend([
         String::new(),
-        format!("## Commands run (last 25 of {})", h.commands.len()),
+        format!("## Commands run ({})", counted(h.commands.len(), 25)),
     ]);
     if h.commands.is_empty() {
         lines.push("(none)".into())
@@ -400,8 +408,8 @@ pub fn handoff(
     lines.extend([
         String::new(),
         format!(
-            "## Errors and interruptions (last 15 of {})",
-            h.errors.len()
+            "## Errors and interruptions ({})",
+            counted(h.errors.len(), 15)
         ),
     ]);
     if h.errors.is_empty() {
