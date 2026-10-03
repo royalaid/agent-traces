@@ -102,6 +102,10 @@ pub fn parse_since(text: &str, now: DateTime<Utc>) -> Result<DateTime<Utc>> {
     bail!("cannot parse time {text:?}; use 7d, 36h, 90m, or 2026-09-01")
 }
 pub fn one_line(text: &str, n: usize) -> String {
+    // Windows tools that print UTF-16LE (`wsl -l -v`) reach transcripts with a NUL
+    // after each character; dropping NULs leaves that text readable, and a NUL
+    // cannot travel in a command-line argument anyway.
+    let text = text.replace('\0', "");
     let t = text.split_whitespace().collect::<Vec<_>>().join(" ");
     if t.chars().count() <= n {
         t
@@ -231,5 +235,16 @@ mod tests {
     fn epoch_milliseconds_round_to_python_microseconds() {
         let d = parse_ts(&serde_json::json!(1790330400172_i64)).unwrap();
         assert_eq!(d.timestamp_subsec_micros(), 172000);
+    }
+}
+
+#[cfg(test)]
+mod one_line_tests {
+    use super::one_line;
+
+    #[test]
+    fn utf16le_tool_output_loses_its_nuls() {
+        let utf16: String = "NAME  STATE".chars().flat_map(|c| [c, '\0']).collect();
+        assert_eq!(one_line(&utf16, 80), "NAME STATE");
     }
 }

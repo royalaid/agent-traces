@@ -1935,9 +1935,9 @@ def cmd_handoff(args):
         lines += ["## Last todo / plan state", "```", redact(clip(json.dumps(todos, indent=1, ensure_ascii=False), 3000)), "```", ""]
     lines.append("## Files written or edited (%d)" % len(files))
     lines += ["- %s" % tilde(f) for f in files[:80]] or ["(none recorded)"]
-    lines += ["", "## Commands run (last 25 of %d)" % len(commands)]
+    lines += ["", "## Commands run (%s)" % (len(commands) if len(commands) <= 25 else "last 25 of %d" % len(commands))]
     lines += ["- %s" % redact(tool_summary(e.get("name"), e.get("input"))) for e in commands[-25:]] or ["(none)"]
-    lines += ["", "## Errors and interruptions (last 15 of %d)" % len(errors)]
+    lines += ["", "## Errors and interruptions (%s)" % (len(errors) if len(errors) <= 15 else "last 15 of %d" % len(errors))]
     lines += ["- [%s] %s" % (fmt_ts(e.get("ts")), redact(one_line(e.get("text") or "", 240))) for e in errors[-15:]] or ["(none)"]
     lines += ["", "## Tickets and merge requests mentioned",
               ", ".join(tickets[:60]) or "(none)"] + ["- " + u for u in urls[:20]]
