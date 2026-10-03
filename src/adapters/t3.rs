@@ -572,9 +572,16 @@ INSERT INTO projection_threads VALUES('shadow','V1 shadow',NULL,NULL,'2026-01-01
         f.message("active", "assistant", "later", "2026-01-04T00:00:00Z");
         let rows = T3.sessions(&f.ctx, None, false).unwrap();
         let row = rows.iter().find(|r| r["id"] == "active").unwrap();
+        // Built with the platform's separator: Windows prints `~\.t3\userdata`.
+        let userdata = f.ctx.home.join(".t3").join("userdata");
+        let home = f.ctx.tilde(&userdata);
+        let path = format!(
+            "{}#thread=active",
+            f.ctx.tilde(&userdata.join("statev2.sqlite"))
+        );
         assert_eq!(
             *row,
-            json!({"harness":"t3","home":"~/.t3/userdata","id":"active","parent":null,"kind":"main","cwd":"/worktree","branch":"feat/test","title":"V2 title","first_prompt":null,"started":"2026-01-01T00:00:00Z","updated":"2026-01-03T00:00:00Z","model":"model","path":"~/.t3/userdata/statev2.sqlite#thread=active","provider_instance":"column-instance","provider":"claude","provider_id":"claude-native","status":null,"archived":true})
+            json!({"harness":"t3","home":home,"id":"active","parent":null,"kind":"main","cwd":"/worktree","branch":"feat/test","title":"V2 title","first_prompt":null,"started":"2026-01-01T00:00:00Z","updated":"2026-01-03T00:00:00Z","model":"model","path":path,"provider_instance":"column-instance","provider":"claude","provider_id":"claude-native","status":null,"archived":true})
         );
         let fallback = rows.iter().find(|r| r["id"] == "fallback").unwrap();
         assert_eq!(fallback["cwd"], "/repo");
@@ -612,7 +619,14 @@ INSERT INTO projection_threads VALUES('shadow','V1 shadow',NULL,NULL,'2026-01-01
         assert_eq!(T3.sessions(&f.ctx, None, false).unwrap().len(), 1);
         let stores = T3.where_info(&f.ctx).unwrap();
         assert_eq!(stores.len(), 2);
-        assert_eq!(stores[0]["path"], "~/.t3/userdata/statev2.sqlite");
+        let v2 = f.ctx.tilde(
+            &f.ctx
+                .home
+                .join(".t3")
+                .join("userdata")
+                .join("statev2.sqlite"),
+        );
+        assert_eq!(stores[0]["path"], json!(v2));
         assert_eq!(stores[0]["sessions"], 0);
         assert_eq!(stores[1]["sessions"], 2);
     }
