@@ -85,6 +85,16 @@ pub fn records<'a>(
             }
             match decode(&raw) {
                 Ok(v) => return Some((i, v)),
+                // A live session's last record can be read mid-write.
+                Err(e) if raw.last() != Some(&b'\n') => ctx.diagnostic(
+                    "malformed_record",
+                    None,
+                    Some(&path),
+                    format!(
+                        "line {}: unterminated final record skipped (file may still be written): {e}",
+                        i + 1
+                    ),
+                ),
                 Err(e) => ctx.diagnostic(
                     "malformed_record",
                     None,
@@ -153,6 +163,23 @@ mod tests {
         let v = records(&ctx, &p, 0, Some(&["needle".into()])).collect::<Vec<_>>();
         assert_eq!(v[0].0, 2);
         assert_eq!(ctx.skipped.get(), 2);
+    }
+    #[test]
+    fn an_unterminated_last_record_is_named_as_such() {
+        let t = tempfile::tempdir().unwrap();
+        let p = t.path().join("live.jsonl");
+        // A writer stopped mid-record, partway into a \u escape.
+        std::fs::write(&p, b"{\"a\":1}\nbroken\n{\"s\":\"x\\u12").unwrap();
+        let ctx = Context::from_env();
+        assert_eq!(records(&ctx, &p, 0, None).count(), 1);
+        let d = ctx.diagnostics.borrow();
+        assert_eq!(d.len(), 2);
+        assert!(d.iter().all(|d| d.code == "malformed_record"));
+        assert!(!d[0].message.contains("unterminated"));
+        assert!(
+            d[1].message
+                .starts_with("line 3: unterminated final record")
+        );
     }
     #[test]
     fn tail_drops_partial_first_line() {
