@@ -119,6 +119,12 @@ pub fn gather(ctx: &Context, filters: &Filters) -> Result<Vec<Session>> {
     if names.as_ref().is_none_or(|n| n.contains(&"t3")) {
         rows = merge_t3(rows);
     }
+    // Adapters prefilter on file mtime, which moves when a harness appends an
+    // undated metadata line to an old session. `--since` means last recorded
+    // activity, so recheck it against `updated`.
+    if let Some(since) = filters.since {
+        rows.retain(|r| parse_ts(&r["updated"]).is_none_or(|d| d >= since));
+    }
     if let Some(until) = filters.until {
         rows.retain(|r| parse_ts(&r["started"]).unwrap_or(ctx.now) <= until);
     }

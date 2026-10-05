@@ -529,6 +529,24 @@ fn row_json(row: &Session) -> Value {
     }
     d
 }
+/// The span of events `failures` scores. Session selection (`--since` against
+/// last activity) is separate: a session active this week can hold errors
+/// from weeks ago, and those must not count toward this week's score.
+#[derive(Clone, Copy, Default)]
+pub struct EventWindow {
+    pub since: Option<DateTime<Utc>>,
+    pub until: Option<DateTime<Utc>>,
+}
+impl EventWindow {
+    /// An undated event cannot be placed, so it stays in.
+    fn contains(&self, ts: Option<DateTime<Utc>>) -> bool {
+        ts.is_none_or(|t| self.since.is_none_or(|s| t >= s) && self.until.is_none_or(|u| t <= u))
+    }
+    fn is_open(&self) -> bool {
+        self.since.is_none() && self.until.is_none()
+    }
+}
+
 pub fn failures<I, T>(
     ctx: &Context,
     rows_events: I,
@@ -536,6 +554,7 @@ pub fn failures<I, T>(
     limit: i64,
     json_output: bool,
     since: Option<DateTime<Utc>>,
+    window: EventWindow,
 ) -> CommandOutput
 where
     I: IntoIterator<Item = T>,
@@ -553,17 +572,22 @@ where
             .iter()
             .filter(|e| e.role != "notice")
             .collect::<Vec<_>>();
-        let te = events
+        let in_window = events
+            .iter()
+            .filter(|e| window.contains(e.ts))
+            .copied()
+            .collect::<Vec<_>>();
+        let te = in_window
             .iter()
             .filter(|e| e.role == "result" && e.error)
             .copied()
             .collect::<Vec<_>>();
-        let se = events
+        let se = in_window
             .iter()
             .filter(|e| e.role == "system" && e.error)
             .copied()
             .collect::<Vec<_>>();
-        let cp = events
+        let cp = in_window
             .iter()
             .filter(|e| e.role == "system" && e.text.contains("compact"))
             .count();
@@ -572,11 +596,17 @@ where
             .filter(|e| ["prompt", "command"].contains(&e.role.as_str()))
             .copied()
             .collect::<Vec<_>>();
+        // The session's first prompt is never a correction, even when it
+        // falls outside the window, so skip it before windowing.
         let co = prompts
             .iter()
             .skip(1)
-            .filter(|e| CORRECTION.is_match(&e.text))
+            .filter(|e| window.contains(e.ts) && CORRECTION.is_match(&e.text))
             .copied()
+            .collect::<Vec<_>>();
+        let prompts = prompts
+            .into_iter()
+            .filter(|e| window.contains(e.ts))
             .collect::<Vec<_>>();
         let score = te.len() + 3 * se.len() + 2 * co.len() + cp;
         if (score as i128) < i128::from(min) {
@@ -658,10 +688,25 @@ where
     CommandOutput {
         stdout,
         stderr: format!(
-            "\n{} of {} sessions since {} scored >= {min} (tool error 1, api/abort/runtime error 3, user correction 2, compaction 1). Scores find candidates; read the turns around the first problem with `show ID --grep`.\n",
+            "\n{} of {} sessions active since {} scored >= {min} on {} (tool error 1, api/abort/runtime error 3, user correction 2, compaction 1). Scores find candidates, not failure rates; read the turns around the first problem with `show ID --grep`.\n",
             scored.len(),
             total,
-            fmt_ts(since)
+            fmt_ts(since),
+            if window.is_open() {
+                "all their events".to_owned()
+            } else {
+                format!(
+                    "events {}{}",
+                    window
+                        .since
+                        .map(|d| format!("since {}", fmt_ts(Some(d))))
+                        .unwrap_or_default(),
+                    window
+                        .until
+                        .map(|d| format!(" until {}", fmt_ts(Some(d))))
+                        .unwrap_or_default()
+                )
+            }
         ),
         ..Default::default()
     }
@@ -871,7 +916,7 @@ mod tests {
                 sys,
             ],
         )];
-        let out = failures(&ctx, &rows, 1, 10, true, None);
+        let out = failures(&ctx, &rows, 1, 10, true, None, EventWindow::default());
         let value: Value = serde_json::from_str(out.stdout.trim()).unwrap();
         assert_eq!(value["score"], 7);
         assert_eq!(value["corrections"], 1);
@@ -1039,7 +1084,7 @@ mod tests {
                         .contains("last write-like call:  claude session-3")
                 );
             } else {
-                let out = failures(&ctx, input, 1, 2, true, None);
+                let out = failures(&ctx, input, 1, 2, true, None, EventWindow::default());
                 assert_eq!(out.stdout.lines().count(), 2);
                 assert!(out.stderr.contains("4 of 4 sessions"));
             }

@@ -70,6 +70,17 @@ static MSVC runtime. Linux release archives target musl.
 | `live` | Query available liveness evidence |
 | `me` | Resolve the caller's environment session IDs |
 
+`--since` and `--until` select sessions by recorded activity: `--since` keeps a
+session whose last timestamped event is at or after the cutoff, and `--until`
+one that started at or before it. File modification time is only a prefilter,
+because harnesses append undated metadata to old sessions. `failures` also
+scores only the events inside that window, so a session resumed this week does
+not carry last month's errors into this week's ranking. Pass `--all-events` to
+score whole sessions. A score ranks candidates for reading; it is not a failure
+rate. Skipped records are reported on stderr with their store path, and an
+unterminated final record is named as such, since it usually means the file was
+being written while it was read.
+
 Legacy `ls --json`, `find --json`, and `resolve --json` emit JSON Lines.
 Mailbox consumers should use `--json --schema-version 1` and set
 `AGENT_TRACES_HOST_ID` to a stable host namespace. The versioned envelope applies

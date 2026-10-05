@@ -122,6 +122,10 @@ enum Command {
         min: i64,
         #[arg(long)]
         include_self: bool,
+        /// Score every event of each selected session, not only those in the
+        /// --since/--until window.
+        #[arg(long)]
+        all_events: bool,
     },
     Show {
         id: String,
@@ -540,6 +544,7 @@ fn execute(ctx: &Context, cmd: &Command) -> Result<CommandOutput> {
             limit,
             min,
             include_self,
+            all_events,
         } => {
             if common.format.v1() {
                 bail!("versioned JSON is supported for ls, find, live, resolve, me, handoff");
@@ -556,6 +561,14 @@ fn execute(ctx: &Context, cmd: &Command) -> Result<CommandOutput> {
                 *limit,
                 common.format.json,
                 filters.since,
+                if *all_events {
+                    commands::EventWindow::default()
+                } else {
+                    commands::EventWindow {
+                        since: filters.since,
+                        until: filters.until,
+                    }
+                },
             ))
         }
         Command::Touched {
@@ -847,8 +860,14 @@ fn main() {
     }
     if !v1 {
         for d in ctx.diagnostics.borrow().iter() {
+            // Name the store, or a skipped record cannot be traced back to it.
+            let store = d
+                .store_id
+                .as_deref()
+                .map(|p| format!("{}: ", ctx.tilde(std::path::Path::new(p))))
+                .unwrap_or_default();
             out.stderr.push_str(&format!(
-                "{}: {}\n",
+                "{}: {store}{}\n",
                 d.harness.as_deref().unwrap_or("agent-traces"),
                 redact(&d.message)
             ));
