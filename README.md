@@ -9,7 +9,7 @@ checks pass; the Linux musl executable cross-builds. Follow the native Windows,
 macOS ARM64/x64, and Linux [CI results](https://github.com/royalaid/agent-traces/actions/workflows/ci.yml).
 Python remains the regression oracle. See
 [verification and measurements](docs/verification-2026-09-26.md).
-Download native binaries from the [v0.1.0 release](https://github.com/royalaid/agent-traces/releases/tag/v0.1.0).
+Download native binaries from the [latest release](https://github.com/royalaid/agent-traces/releases/latest).
 This package is not published to crates.io.
 
 ## Install a release
@@ -18,7 +18,7 @@ Authenticate GitHub CLI with access to `royalaid/agent-traces`. Download the arc
 and its `.sha256` file for your host with:
 
 ```sh
-gh release download v0.1.0 --repo royalaid/agent-traces --pattern 'ARCHIVE_NAME*' --dir downloads
+gh release download --repo royalaid/agent-traces --pattern 'ARCHIVE_NAME*' --dir downloads
 ```
 
 | Host | Archive name |
