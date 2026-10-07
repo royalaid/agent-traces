@@ -1,11 +1,41 @@
-name: Build release archives
-# Manual archive build only. This workflow cannot publish a release or push a tag.
+name: Release
+# A push to main whose Cargo.toml version has no vX.Y.Z tag builds every target,
+# attests each archive, and publishes the release at that commit. A push that
+# keeps the version builds nothing. A manual run builds and attests without
+# publishing.
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.v.outputs.version }}
+      tagged: ${{ steps.v.outputs.tagged }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: v
+        shell: bash
+        run: |
+          version=$(sed -n 's/^version = "\(.*\)"$/\1/p' Cargo.toml | head -n 1)
+          [ -n "$version" ] || { echo "no version in Cargo.toml" >&2; exit 1; }
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          if git ls-remote --exit-code --tags origin "refs/tags/v$version" >/dev/null; then
+            echo "tagged=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "tagged=false" >> "$GITHUB_OUTPUT"
+          fi
+
   archive:
+    needs: version
+    if: needs.version.outputs.tagged == 'false' || github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
     strategy:
       fail-fast: false
       matrix:
@@ -33,28 +63,23 @@ jobs:
       - run: rustup target add ${{ matrix.target }}
       - if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y musl-tools
+      - run: cargo test --locked
       - run: cargo build --locked --release --target ${{ matrix.target }}
       - run: python -m pip install jsonschema==4.26.0
       - name: Verify native executable and v1 schemas
         run: python tests/parity.py --schema --binary target/${{ matrix.target }}/release/agent-traces${{ matrix.suffix }}
-      - name: Package binary, contract, and checksum
-        shell: python
-        env:
-          TARGET: ${{ matrix.target }}
-          SUFFIX: ${{ matrix.suffix }}
+      - name: Check the version the binary reports
+        shell: bash
         run: |
-          import hashlib, os, pathlib, shutil
-          target = os.environ['TARGET']
-          name = 'agent-traces-' + target
-          stage = pathlib.Path('dist') / name
-          stage.mkdir(parents=True)
-          shutil.copy2(pathlib.Path('target') / target / 'release' / ('agent-traces' + os.environ['SUFFIX']), stage)
-          shutil.copy2('README.md', stage)
-          shutil.copytree('schemas', stage / 'schemas')
-          shutil.copytree('docs', stage / 'docs')
-          archive = pathlib.Path(shutil.make_archive(str(pathlib.Path('dist') / name), 'zip' if os.environ['SUFFIX'] else 'gztar', 'dist', name))
-          digest = hashlib.sha256(archive.read_bytes()).hexdigest()
-          archive.with_name(archive.name + '.sha256').write_text(digest + '  ' + archive.name + '\n', encoding='utf-8', newline='\n')
+          out=$(target/${{ matrix.target }}/release/agent-traces${{ matrix.suffix }} --version)
+          [ "$out" = "agent-traces ${{ needs.version.outputs.version }}" ] || { echo "binary reports: $out" >&2; exit 1; }
+      - name: Package binary, contract, and checksum
+        run: python scripts/package.py ${{ matrix.target }} "${{ matrix.suffix }}"
+      - uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: |
+            dist/*.zip
+            dist/*.tar.gz
       - uses: actions/upload-artifact@v4
         with:
           name: agent-traces-${{ matrix.target }}
@@ -63,3 +88,25 @@ jobs:
             dist/*.tar.gz
             dist/*.sha256
           if-no-files-found: error
+
+  publish:
+    needs: [version, archive]
+    if: needs.version.outputs.tagged == 'false' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Create the tag and release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.version.outputs.version }}
+        run: |
+          ls dist
+          test "$(ls dist/*.tar.gz dist/*.zip | wc -l)" -eq 4
+          gh release create "v$VERSION" -R "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "agent-traces $VERSION" --generate-notes \
+            dist/*.tar.gz dist/*.zip dist/*.sha256
