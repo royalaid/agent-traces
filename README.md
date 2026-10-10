@@ -1,3 +1,5 @@
+> Published mirror of royalaid/harbor `agent-traces/` (Harbor decision D043). Changes land in royalaid/harbor; do not open pull requests here.
+
 # agent-traces
 
 Read coding-agent sessions across Claude Code, Codex, T3 Code, OpenCode, and
@@ -11,6 +13,10 @@ Python remains the regression oracle. See
 [verification and measurements](docs/verification-2026-09-26.md).
 Download native binaries from the [latest release](https://github.com/royalaid/agent-traces/releases/latest).
 This package is not published to crates.io.
+
+Development happens in the `agent-traces/` folder of the Harbor monorepo
+(`royalaid/harbor`). This repository, `royalaid/agent-traces`, is its one-way
+published mirror: releases and CI run here, and changes land in Harbor.
 
 ## Install a release
 
@@ -39,8 +45,8 @@ the stores; Windows and WSL are separate hosts.
 
 ## Build from source
 
-Clone this repository, enter its directory, and install a Rust toolchain and the
-platform C compiler. Run:
+Clone this repository and enter its directory (in a Harbor checkout, enter
+`agent-traces/`), then install a Rust toolchain and the platform C compiler. Run:
 
 ```sh
 cargo build --locked --release
